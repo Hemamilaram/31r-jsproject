@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cart - Tails&Treats</title>
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background-color: #f7f7f7;
+    }
+
+    header {
+      background-color: #e67e22;
+      color: white;
+      padding: 20px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 1.5rem;
+    }
+
+    .back-btn {
+      background-color: #2980b9;
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .back-btn:hover {
+      background-color: #2471a3;
+    }
+
+    .cart-container {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .cart-item {
+      display: flex;
+      align-items: center;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      margin-bottom: 20px;
+      padding: 20px;
+      gap: 20px;
+    }
+
+    .cart-item img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .cart-details {
+      flex-grow: 1;
+    }
+
+    .cart-details h3 {
+      margin: 0;
+      font-size: 1.1rem;
+      color: #333;
+    }
+
+    .cart-details p {
+      margin: 5px 0;
+      color: #666;
+    }
+
+    .remove-btn {
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .remove-btn:hover {
+      background-color: #c0392b;
+    }
+
+    .total-section {
+      text-align: right;
+      margin-top: 30px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .checkout-btn {
+      display: block;
+      margin-left: auto;
+      margin-top: 20px;
+      background-color: #2ecc71;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .checkout-btn:hover {
+      background-color: #27ae60;
+    }
+
+    .empty-cart {
+      text-align: center;
+      color: #888;
+      font-size: 1.2rem;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <button class="back-btn" onclick="window.location.href='products.html'">← Back</button>
+    <div>Your Shopping Cart</div>
+  </header>
+
+  <div class="cart-container" id="cart-container">
+    <div class="empty-cart" id="empty-cart">Your cart is empty.</div>
+  </div>
+
+  <script type="module">
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    const container = document.getElementById("cart-container");
+    const emptyMessage = document.getElementById("empty-cart");
+
+    function renderCart() {
+      container.innerHTML = '';
+      if (cart.length === 0) {
+        emptyMessage.style.display = 'block';
+        return;
+      }
+      emptyMessage.style.display = 'none';
+
+      let total = 0;
+
+      cart.forEach((item, index) => {
+        total += item.price;
+
+        const div = document.createElement("div");
+        div.className = "cart-item";
+
+        div.innerHTML = `
+          <img src="${item.imageURL}" alt="${item.name}" />
+          <div class="cart-details">
+            <h3>${item.name}</h3>
+            <p>Category: ${item.category}</p>
+            <p>Price: $${item.price.toFixed(2)}</p>
+          </div>
+          <button class="remove-btn" data-index="${index}">Remove</button>
+        `;
+
+        container.appendChild(div);
+      });
+
+      const totalSection = document.createElement("div");
+      totalSection.className = "total-section";
+      totalSection.innerHTML = `Total: $${total.toFixed(2)}`;
+      container.appendChild(totalSection);
+
+      const checkoutBtn = document.createElement("button");
+      checkoutBtn.className = "checkout-btn";
+      checkoutBtn.textContent = "Proceed to Checkout";
+      container.appendChild(checkoutBtn);
+
+      // ➡ Navigate to checkout page
+      checkoutBtn.addEventListener("click", () => {
+        window.location.href = "checkout.html";
+      });
+    }
+
+    container.addEventListener("click", (e) => {
+      if (e.target.classList.contains("remove-btn")) {
+        const index = e.target.dataset.index;
+        cart.splice(index, 1);
+        localStorage.setItem("cart", JSON.stringify(cart));
+        renderCart();
+      }
+    });
+
+    renderCart();
+  </script>
+</body>
+</html>

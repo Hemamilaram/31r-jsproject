@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Checkout - Tails&Treats</title>
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background-color: #f7f7f7;
+    }
+
+    header {
+      background-color: #e67e22;
+      color: white;
+      padding: 20px 30px;
+      text-align: center;
+      font-size: 1.8rem;
+    }
+
+    .checkout-container {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 30px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .checkout-container h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 25px;
+    }
+
+    .checkout-container input,
+    .checkout-container textarea {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 18px;
+      font-size: 1rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+
+    .payment-method {
+      margin-bottom: 20px;
+    }
+
+    .payment-method label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+
+    .checkout-btn {
+      width: 100%;
+      padding: 14px;
+      background-color: #2ecc71;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .checkout-btn:hover {
+      background-color: #27ae60;
+    }
+
+    .success-message {
+      text-align: center;
+      color: #27ae60;
+      font-size: 1.6rem;
+      font-weight: bold;
+      margin-top: 25px;
+    }
+  </style>
+</head>
+<body>
+  <header>Checkout</header>
+
+  <div class="checkout-container">
+    <h2>Enter Delivery Details</h2>
+    <input type="text" placeholder="Full Name" required />
+    <textarea rows="3" placeholder="Address" required></textarea>
+    <input type="text" placeholder="Phone Number" required />
+
+    <div class="payment-method">
+      <label><input type="checkbox" checked /> Cash on Delivery (COD)</label>
+      <label><input type="checkbox" disabled /> Online Payment (Not available)</label>
+    </div>
+
+    <button class="checkout-btn" id="place-order-btn">Place Order</button>
+    <div class="success-message" id="success-msg" style="display: none;">
+      ✅ Your order has been placed successfully!
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("place-order-btn").addEventListener("click", () => {
+      // Clear cart
+      localStorage.removeItem("cart");
+
+      // Show success message
+      document.getElementById("success-msg").style.display = "block";
+
+      // Optional: Redirect after 3s
+      // setTimeout(() => window.location.href = "../products.html", 3000);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Guest Access - Tails&Treats</title>
+  <link rel="icon" href="../assets/favicon.svg" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-image: url('../assets/login-background/guestimg.jpg'); /* use any guest-related image here */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .guest-container {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 50px 60px;
+      border-radius: 14px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      width: 420px;
+      max-width: 90%;
+      text-align: center;
+    }
+
+    .guest-container h2 {
+      color: #27ae60; /* Green */
+      margin-bottom: 30px;
+      font-weight: 700;
+      font-size: 2.2rem;
+    }
+
+    .guest-container input[type="text"],
+    .guest-container input[type="email"] {
+      width: 100%;
+      padding: 14px 16px;
+      margin: 14px 0 22px 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+
+    .guest-container button {
+      width: 100%;
+      padding: 14px;
+      background-color: #27ae60; /* Green */
+      border: none;
+      border-radius: 6px;
+      color: white;
+      font-size: 1.1rem;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+
+    .guest-container button:hover {
+      background-color: #219150;
+    }
+
+    .guest-links {
+      margin-top: 25px;
+      font-size: 0.95rem;
+      color: #555;
+    }
+
+    .guest-links a {
+      display: block;
+      margin: 10px 0;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+
+    .guest-links a[href*="login"] {
+      color: #2980b9; /* Blue for Login */
+    }
+
+    .guest-links a[href*="signup"] {
+      color: #e67e22; /* Orange for Signup */
+    }
+
+    .guest-links a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="guest-container">
+    <h2>Continue as Guest</h2>
+    <form id="guestForm">
+      <input type="text" placeholder="Your Name (optional)" />
+      <input type="email" placeholder="Email (optional)" />
+      <button type="submit">Browse as Guest</button>
+    </form>
+    <div class="guest-links">
+      <a href="login.html">Already have an account? Login</a>
+      <a href="signup.html">Create a new account</a>
+    </div>
+  </div>
+
+  <script>
+    import { auth, signInAnonymously, onAuthStateChanged } from "./firebase-auth.js";
+
+signInAnonymously(auth)
+  .catch(err => alert("Guest login failed: " + err.message));
+
+onAuthStateChanged(auth, user => {
+  if (user) {
+    window.location.href = "../products.html";
+  }
+});
+
+  </script>
+</body>
+</html>

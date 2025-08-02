@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login - Tails&Treats</title>
+  <link rel="icon" href="../assets/favicon.svg" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-image: url('../assets/login-background/loginimg.jpg'); /* Same background */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .login-container {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 50px 60px;
+      border-radius: 14px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      width: 420px;
+      max-width: 90%;
+      text-align: center;
+    }
+
+    .login-container h2 {
+      color: #2980b9; /* Blue accent */
+      margin-bottom: 30px;
+      font-weight: 700;
+      font-size: 2.2rem;
+    }
+
+    .login-container input[type="email"],
+    .login-container input[type="password"] {
+      width: 100%;
+      padding: 14px 16px;
+      margin: 14px 0 22px 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+
+    .remember {
+      display: flex;
+      align-items: center;
+      font-size: 0.9rem;
+      color: #555;
+      margin-bottom: 25px;
+    }
+
+    .remember input {
+      margin-right: 10px;
+    }
+
+    .login-container button {
+      width: 100%;
+      padding: 14px;
+      background-color: #2980b9; /* Blue login button */
+      border: none;
+      border-radius: 6px;
+      color: white;
+      font-size: 1.1rem;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+
+    .login-container button:hover {
+      background-color: #1f6aa5;
+    }
+
+    .login-links {
+      margin-top: 25px;
+      font-size: 0.95rem;
+      color: #555;
+    }
+
+    .login-links a {
+      display: block;
+      margin: 10px 0;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+
+    .login-links a[href*="signup"] {
+      color: #e67e22; /* Orange for signup */
+    }
+
+    .login-links a[href*="guest"] {
+      color: #27ae60; /* Green for guest */
+    }
+
+    .login-links a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h2>Welcome Back!</h2>
+    <form id="loginForm">
+      <input type="email" placeholder="Email" required />
+      <input type="password" placeholder="Password" required />
+      <div class="remember">
+        <input type="checkbox" id="remember" />
+        <label for="remember">Remember Me</label>
+      </div>
+      <button type="submit">Login</button>
+    </form>
+    <div class="login-links">
+      <a href="signup.html">Don't have an account? Sign Up</a>
+      <a href="guest.html">Continue as Guest</a>
+    </div>
+  </div>
+
+  <script>
+  import { auth, signInWithEmailAndPassword, onAuthStateChanged } from "./firebase-auth.js";
+
+loginForm.addEventListener("submit", async e => {
+  e.preventDefault();
+  try {
+    await signInWithEmailAndPassword(auth, email.value, password.value);
+  } catch(err) {
+    alert("Login failed: " + err.message);
+  }
+});
+
+onAuthStateChanged(auth, user => {
+  if (user && !user.isAnonymous) {
+    window.location.href = "../products.html";
+  }
+});
+
+  </script>
+</body>
+</html>
