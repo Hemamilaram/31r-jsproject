@@ -1,14 +1,13 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
-
-import { auth, onAuthStateChanged } from "./firebase-auth.js";
+import { auth, onAuthStateChanged } from "./firebase.js"; 
 
 onAuthStateChanged(auth, user => {
   if (!user) {
     window.location.href = "auth/login.html";
   }
-  // if anonymous or logged-in, continue rendering
+
 });
 
 // Firebase config
@@ -16,7 +15,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyCArA-M1kA28Zr-MfGA8AHrujVaJtBxkr0",
   authDomain: "tailsandtreats.firebaseapp.com",
   projectId: "tailsandtreats",
-  storageBucket: "tailsandtreats.firebasestorage.app",
+  storageBucket: "tailsandtreats.appspot.com", 
   messagingSenderId: "527033962954",
   appId: "1:527033962954:web:7e28cfc7505096487bff33"
 };
@@ -25,7 +24,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// 🛒 Cart setup
+// Cart setup
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 function addToCart(product) {
@@ -39,8 +38,7 @@ function updateCartCount() {
   document.getElementById("cart-count").textContent = cart.length;
 }
 
-
-// 🔁 Pagination state
+//  Pagination 
 let allProducts = [];
 let currentPage = 1;
 const itemsPerPage = 8;
@@ -51,7 +49,7 @@ function paginateProducts(products, page) {
   return products.slice(start, end);
 }
 
-// 🛍️ Render Products
+// Render Products
 const renderProducts = (products) => {
   const container = document.getElementById("products-container");
   container.innerHTML = "";
@@ -105,21 +103,20 @@ function renderPaginationControls(totalItems) {
   });
 }
 
-
-// 📦 Fetch Products
+//  Fetch Products
 async function fetchProducts() {
   const productsCol = collection(db, "products");
   const snapshot = await getDocs(productsCol);
   return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 }
 
-// 🚀 Initialize
+// Initialize
 (async () => {
   allProducts = await fetchProducts();
   renderProducts(allProducts);
 })();
 
-// 🧠 Category Filter logic + Active class
+// Category Filter logic and Active class
 document.addEventListener("click", (e) => {
   if (e.target.classList.contains("filter-btn")) {
     const selectedCategory = e.target.dataset.category;
@@ -132,7 +129,7 @@ document.addEventListener("click", (e) => {
     // Add 'active' to clicked button
     e.target.classList.add("active");
 
-    currentPage = 1; // Reset to first page on filter
+    currentPage = 1; 
 
     if (selectedCategory === "All") {
       renderProducts(allProducts);
@@ -153,7 +150,6 @@ document.getElementById("search-input").addEventListener("input", function () {
     );
   });
 
-  currentPage = 1; // Reset to first page
+  currentPage = 1; 
   renderProducts(filtered);
 });
-

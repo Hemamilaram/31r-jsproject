@@ -10,7 +10,7 @@
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
-      background-image: url('../assets/login-background/guestimg.jpg'); /* use any guest-related image here */
+      background-image: url('../assets/login-background/guestimg.jpg');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -31,7 +31,7 @@
     }
 
     .guest-container h2 {
-      color: #27ae60; /* Green */
+      color: #27ae60;
       margin-bottom: 30px;
       font-weight: 700;
       font-size: 2.2rem;
@@ -50,7 +50,7 @@
     .guest-container button {
       width: 100%;
       padding: 14px;
-      background-color: #27ae60; /* Green */
+      background-color: #27ae60;
       border: none;
       border-radius: 6px;
       color: white;
@@ -79,11 +79,11 @@
     }
 
     .guest-links a[href*="login"] {
-      color: #2980b9; /* Blue for Login */
+      color: #2980b9;
     }
 
     .guest-links a[href*="signup"] {
-      color: #e67e22; /* Orange for Signup */
+      color: #e67e22;
     }
 
     .guest-links a:hover {
@@ -105,18 +105,36 @@
     </div>
   </div>
 
-  <script>
-    import { auth, signInAnonymously, onAuthStateChanged } from "./firebase-auth.js";
+  <script type="module">
+    import {
+      auth,
+      signInAnonymously,
+      onAuthStateChanged
+    } from "../js/firebase.js";
+    import { signOut } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 
-signInAnonymously(auth)
-  .catch(err => alert("Guest login failed: " + err.message));
+    onAuthStateChanged(auth, user => {
+      if (user && user.isAnonymous) {
+        signOut(auth);
+      }
+    });
 
-onAuthStateChanged(auth, user => {
-  if (user) {
-    window.location.href = "../products.html";
-  }
-});
+    const form = document.getElementById("guestForm");
 
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      try {
+        await signInAnonymously(auth);
+      } catch (err) {
+        alert("Guest login failed: " + err.message);
+      }
+    });
+
+    onAuthStateChanged(auth, user => {
+      if (user && user.isAnonymous) {
+        window.location.href = "../products.html";
+      }
+    });
   </script>
 </body>
 </html>

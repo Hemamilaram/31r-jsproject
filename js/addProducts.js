@@ -1,7 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
 import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
-// Your Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyCArA-M1kA28Zr-MfGA8AHrujVaJtBxkr0",
   authDomain: "tailsandtreats.firebaseapp.com",
@@ -216,7 +215,6 @@ const products = [
   }
 ];
 
-// Upload products to Firestore
 async function uploadProducts() {
   for (const product of products) {
     try {
@@ -228,4 +226,4 @@ async function uploadProducts() {
   }
 }
 
-// uploadProducts(); // 🚨 Only run once
+// uploadProducts(); 

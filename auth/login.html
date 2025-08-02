@@ -5,12 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Login - Tails&Treats</title>
   <link rel="icon" href="../assets/favicon.svg" />
-  <link rel="stylesheet" href="../css/style.css" />
   <style>
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
-      background-image: url('../assets/login-background/loginimg.jpg'); /* Same background */
+      background-image: url('../assets/login-background/loginimg.jpg');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -31,7 +30,7 @@
     }
 
     .login-container h2 {
-      color: #2980b9; /* Blue accent */
+      color: #2980b9;
       margin-bottom: 30px;
       font-weight: 700;
       font-size: 2.2rem;
@@ -62,7 +61,7 @@
     .login-container button {
       width: 100%;
       padding: 14px;
-      background-color: #2980b9; /* Blue login button */
+      background-color: #2980b9;
       border: none;
       border-radius: 6px;
       color: white;
@@ -91,11 +90,11 @@
     }
 
     .login-links a[href*="signup"] {
-      color: #e67e22; /* Orange for signup */
+      color: #e67e22;
     }
 
     .login-links a[href*="guest"] {
-      color: #27ae60; /* Green for guest */
+      color: #27ae60;
     }
 
     .login-links a:hover {
@@ -107,8 +106,8 @@
   <div class="login-container">
     <h2>Welcome Back!</h2>
     <form id="loginForm">
-      <input type="email" placeholder="Email" required />
-      <input type="password" placeholder="Password" required />
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="password" id="password" placeholder="Password" required />
       <div class="remember">
         <input type="checkbox" id="remember" />
         <label for="remember">Remember Me</label>
@@ -121,24 +120,36 @@
     </div>
   </div>
 
-  <script>
-  import { auth, signInWithEmailAndPassword, onAuthStateChanged } from "./firebase-auth.js";
+  <script type="module">
+    import {
+      auth,
+      signInWithEmailAndPassword,
+      onAuthStateChanged
+    } from "../js/firebase.js";
 
-loginForm.addEventListener("submit", async e => {
-  e.preventDefault();
-  try {
-    await signInWithEmailAndPassword(auth, email.value, password.value);
-  } catch(err) {
-    alert("Login failed: " + err.message);
-  }
-});
+    import { signOut } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 
-onAuthStateChanged(auth, user => {
-  if (user && !user.isAnonymous) {
-    window.location.href = "../products.html";
-  }
-});
+    onAuthStateChanged(auth, (user) => {
+      if (user && user.isAnonymous) {
+        signOut(auth);
+      }
+    });
 
+    const loginForm = document.getElementById("loginForm");
+
+    loginForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        window.location.href = "../products.html";
+      } catch (err) {
+        alert("Login failed: " + err.message);
+      }
+    });
   </script>
 </body>
 </html>

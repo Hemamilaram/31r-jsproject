@@ -74,6 +74,24 @@
       background-color: #27ae60;
     }
 
+    .back-btn {
+      display: inline-block;
+      margin-bottom: 20px;
+      background-color: #3498db;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .back-btn:hover {
+      background-color: #2980b9;
+    }
+
     .success-message {
       text-align: center;
       color: #27ae60;
@@ -87,6 +105,8 @@
   <header>Checkout</header>
 
   <div class="checkout-container">
+    <a href="../products.html" class="back-btn">← Back to Products</a>
+
     <h2>Enter Delivery Details</h2>
     <input type="text" placeholder="Full Name" required />
     <textarea rows="3" placeholder="Address" required></textarea>
@@ -111,8 +131,7 @@
       // Show success message
       document.getElementById("success-msg").style.display = "block";
 
-      // Optional: Redirect after 3s
-      // setTimeout(() => window.location.href = "../products.html", 3000);
+
     });
   </script>
 </body>
